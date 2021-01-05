@@ -222,6 +222,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   capybara (>= 2.15)
+  devise
   devise_token_auth
   jbuilder (~> 2.7)
   listen (~> 3.2)
