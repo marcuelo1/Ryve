@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_05_013552) do
+ActiveRecord::Schema.define(version: 2021_01_05_020615) do
 
   create_table "seller_users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -24,13 +24,17 @@ ActiveRecord::Schema.define(version: 2021_01_05_013552) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "name"
     t.string "nickname"
     t.string "image"
     t.string "email"
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "company_name"
+    t.string "phone_number"
+    t.boolean "is_verified"
+    t.float "longitude"
+    t.float "latitude"
     t.index ["confirmation_token"], name: "index_seller_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_seller_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_seller_users_on_reset_password_token", unique: true
