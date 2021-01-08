@@ -2,7 +2,7 @@ class V1::BuyerUser::RegistrationsController < DeviseTokenAuth::RegistrationsCon
 
     def create
         # Create user
-        buyer_user = BuyerUser.new(sign_up_params)
+        buyer_user = Buyer.new(sign_up_params)
         buyer_user.is_verified = false
         buyer_user.verification_code = (rand() * 10000).to_i
 

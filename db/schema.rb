@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_07_142611) do
+ActiveRecord::Schema.define(version: 2021_01_08_120402) do
 
-  create_table "buyer_users", force: :cascade do |t|
+  create_table "buyers", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -35,13 +35,13 @@ ActiveRecord::Schema.define(version: 2021_01_07_142611) do
     t.string "phone_number"
     t.boolean "is_verified"
     t.integer "verification_code"
-    t.index ["confirmation_token"], name: "index_buyer_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_buyer_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_buyer_users_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_buyer_users_on_uid_and_provider", unique: true
+    t.index ["confirmation_token"], name: "index_buyers_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_buyers_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_buyers_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_buyers_on_uid_and_provider", unique: true
   end
 
-  create_table "seller_users", force: :cascade do |t|
+  create_table "sellers", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -59,16 +59,17 @@ ActiveRecord::Schema.define(version: 2021_01_07_142611) do
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "company_name"
     t.string "phone_number"
     t.boolean "is_verified"
     t.float "longitude"
     t.float "latitude"
     t.integer "verification_code"
-    t.index ["confirmation_token"], name: "index_seller_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_seller_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_seller_users_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_seller_users_on_uid_and_provider", unique: true
+    t.string "category"
+    t.string "company_name"
+    t.index ["confirmation_token"], name: "index_sellers_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_sellers_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_sellers_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_sellers_on_uid_and_provider", unique: true
   end
 
 end

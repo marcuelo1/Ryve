@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   namespace :v1, default: {format: :json} do
     namespace :seller_user do
-      mount_devise_token_auth_for 'SellerUser', at: 'auth', controllers: {
+      mount_devise_token_auth_for 'Seller', at: 'seller_auth', controllers: {
         registrations: 'v1/seller_user/registrations',
         sessions: 'v1/seller_user/sessions'
       }
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     end
 
     namespace :buyer_user do
-      mount_devise_token_auth_for 'BuyerUser', at: 'auth', controllers: {
+      mount_devise_token_auth_for 'Buyer', at: 'buyer_auth', controllers: {
         registrations: 'v1/buyer_user/registrations',
         sessions: 'v1/buyer_user/sessions'
       }

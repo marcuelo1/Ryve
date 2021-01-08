@@ -1,7 +1,7 @@
 class V1::BuyerUser::VerificationController < ApplicationController
 
     def verify
-        buyer_user = BuyerUser.find(params[:buyer_user_id])
+        buyer_user = Buyer.find(params[:buyer_user_id])
         if buyer_user.verification_code == params[:verification_code].to_i
             buyer_user.is_verified = true
             buyer_user.save 

@@ -6,7 +6,11 @@ class V1::SellerUser::SessionsController < DeviseTokenAuth::SessionsController
         elsif params[:google_id]
 
         else
-            seller_user = SellerUser.find_by(email: params[:email])
+            seller_user = Seller.find_by(email: params[:email])
+            
+            if seller_user == nil 
+                return render json: {status: "You dont have an account"}, status: 422 
+            end
 
             if seller_user.is_verified?
                 super

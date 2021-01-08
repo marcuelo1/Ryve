@@ -6,7 +6,7 @@ class V1::BuyerUser::SessionsController < DeviseTokenAuth::SessionsController
         elsif params[:google_id]
 
         else
-            buyer_user = BuyerUser.find_by(email: params[:email])
+            buyer_user = Buyer.find_by(email: params[:email])
 
             if buyer_user.is_verified?
                 super
