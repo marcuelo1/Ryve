@@ -1,0 +1,11 @@
+<% if @user[:company_name] %>
+    Welcome to Ryve, <%= @user.company_name %>
+<% else %>
+    Welcome to Ryve, <%= @user.first_name + " " + @user.last_name %>
+<% end %>
+===============================================
+ 
+You have successfully signed up to Ryve,
+your code is: <%= @user.verificaiton_code %>.
+ 
+Thanks for joining and have a great day!
