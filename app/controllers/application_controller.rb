@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
     skip_before_action :verify_authenticity_token
     
     def current_user
-        current_v1_seller_user_seller || current_v1_buyer_user_buyer
+        current_v1_seller_user_seller || current_v1_buyer_user_buyer || current_v1_rider_user_rider
     end
     
 end

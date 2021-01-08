@@ -27,5 +27,17 @@ Rails.application.routes.draw do
       # List of locations of user
       get 'locations', to: 'buyers#locations'
     end
+
+    namespace :rider_user do
+      mount_devise_token_auth_for 'Rider', at: 'rider_auth', controllers: {
+        registrations: 'v1/rider_user/registrations',
+        sessions: 'v1/rider_user/sessions'
+      }
+
+      # Verification of seller
+      get 'verify', to: 'verification#verify'
+
+      get 'test', to: 'riders#test'
+    end
   end
 end
