@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_10_062825) do
+ActiveRecord::Schema.define(version: 2021_01_10_073522) do
+
+  create_table "buyer_locations", force: :cascade do |t|
+    t.float "longitude"
+    t.float "latitude"
+    t.string "name"
+    t.integer "buyer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_buyer_locations_on_buyer_id"
+  end
 
   create_table "buyers", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -39,6 +49,42 @@ ActiveRecord::Schema.define(version: 2021_01_10_062825) do
     t.index ["email"], name: "index_buyers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_buyers_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_buyers_on_uid_and_provider", unique: true
+  end
+
+  create_table "cart_items", force: :cascade do |t|
+    t.integer "quantity"
+    t.integer "buyer_id", null: false
+    t.integer "product_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_cart_items_on_buyer_id"
+    t.index ["product_id"], name: "index_cart_items_on_product_id"
+  end
+
+  create_table "completed_transactions", force: :cascade do |t|
+    t.datetime "date"
+    t.integer "rider_id", null: false
+    t.integer "product_id", null: false
+    t.integer "buyer_location_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_location_id"], name: "index_completed_transactions_on_buyer_location_id"
+    t.index ["product_id"], name: "index_completed_transactions_on_product_id"
+    t.index ["rider_id"], name: "index_completed_transactions_on_rider_id"
+  end
+
+  create_table "current_transactions", force: :cascade do |t|
+    t.string "status"
+    t.integer "time_remaining"
+    t.boolean "is_paid"
+    t.integer "buyer_id", null: false
+    t.integer "product_id", null: false
+    t.integer "rider_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_current_transactions_on_buyer_id"
+    t.index ["product_id"], name: "index_current_transactions_on_product_id"
+    t.index ["rider_id"], name: "index_current_transactions_on_rider_id"
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -143,6 +189,15 @@ ActiveRecord::Schema.define(version: 2021_01_10_062825) do
     t.index ["seller_id"], name: "index_tags_on_seller_id"
   end
 
+  add_foreign_key "buyer_locations", "buyers"
+  add_foreign_key "cart_items", "buyers"
+  add_foreign_key "cart_items", "products"
+  add_foreign_key "completed_transactions", "buyer_locations"
+  add_foreign_key "completed_transactions", "products"
+  add_foreign_key "completed_transactions", "riders"
+  add_foreign_key "current_transactions", "buyers"
+  add_foreign_key "current_transactions", "products"
+  add_foreign_key "current_transactions", "riders"
   add_foreign_key "product_categories", "sellers"
   add_foreign_key "products", "product_categories"
   add_foreign_key "schedules", "sellers"
