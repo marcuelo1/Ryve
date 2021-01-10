@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_08_132343) do
+ActiveRecord::Schema.define(version: 2021_01_10_062825) do
 
   create_table "buyers", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -39,6 +39,24 @@ ActiveRecord::Schema.define(version: 2021_01_08_132343) do
     t.index ["email"], name: "index_buyers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_buyers_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_buyers_on_uid_and_provider", unique: true
+  end
+
+  create_table "product_categories", force: :cascade do |t|
+    t.integer "seller_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["seller_id"], name: "index_product_categories_on_seller_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.integer "product_category_id", null: false
+    t.string "name"
+    t.integer "price"
+    t.integer "discount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end
 
   create_table "riders", force: :cascade do |t|
@@ -72,6 +90,20 @@ ActiveRecord::Schema.define(version: 2021_01_08_132343) do
     t.index ["uid", "provider"], name: "index_riders_on_uid_and_provider", unique: true
   end
 
+  create_table "schedules", force: :cascade do |t|
+    t.integer "seller_id", null: false
+    t.string "monday"
+    t.string "tuesday"
+    t.string "wednesday"
+    t.string "thursday"
+    t.string "friday"
+    t.string "saturday"
+    t.string "sunday"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["seller_id"], name: "index_schedules_on_seller_id"
+  end
+
   create_table "sellers", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -103,4 +135,16 @@ ActiveRecord::Schema.define(version: 2021_01_08_132343) do
     t.index ["uid", "provider"], name: "index_sellers_on_uid_and_provider", unique: true
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.integer "seller_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["seller_id"], name: "index_tags_on_seller_id"
+  end
+
+  add_foreign_key "product_categories", "sellers"
+  add_foreign_key "products", "product_categories"
+  add_foreign_key "schedules", "sellers"
+  add_foreign_key "tags", "sellers"
 end
