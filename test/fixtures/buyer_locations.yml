@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  longitude: 1.5
+  latitude: 1.5
+  name: MyString
+  buyer: one
+
+two:
+  longitude: 1.5
+  latitude: 1.5
+  name: MyString
+  buyer: two

@@ -6,4 +6,7 @@ class Buyer < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
+
+  has_many :buyer_locations, dependent: :destroy
+  has_many :cart_items, dependent: :destroy
 end

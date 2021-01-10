@@ -6,4 +6,9 @@ class Seller < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
+
+  has_many :product_categories, dependent: :destroy
+  has_many :tags, dependent: :destroy
+  has_one :schedule, dependent: :destroy
+
 end
