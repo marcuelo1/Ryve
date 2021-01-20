@@ -11,9 +11,9 @@ Rails.application.routes.draw do
       get 'verify', to: 'verification#verify'
       # List of sellers within certain distance
       get 'index', to: 'seller#index'
-      namespace :products do
-        
-      end
+      # Create Product
+      post 'products', to: 'seller#create_product'
+
     end
 
     namespace :buyer_user do
@@ -26,6 +26,8 @@ Rails.application.routes.draw do
       get 'verify', to: 'verification#verify'
       # List of locations of user
       get 'locations', to: 'buyers#locations'
+
+      get 'products', to: 'buyers#products' 
     end
 
     namespace :rider_user do

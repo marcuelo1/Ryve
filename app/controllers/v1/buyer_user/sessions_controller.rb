@@ -7,7 +7,10 @@ class V1::BuyerUser::SessionsController < DeviseTokenAuth::SessionsController
 
         else
             buyer_user = Buyer.find_by(email: params[:email])
-
+            if buyer_user == nil 
+                return render json: {status: "You don't have an account"}, status: 422
+            end
+            
             if buyer_user.is_verified?
                 super
             else
