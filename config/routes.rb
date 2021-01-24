@@ -46,6 +46,8 @@ Rails.application.routes.draw do
       get 'history_list_of_checkouts', to: 'buyers#history_list_of_checkouts'
       # Add Location
       post 'add_location', to: 'buyers#add_location'
+      # Edit Location
+      put 'edit_location', to: 'buyers#edit_location'
     end
 
     namespace :rider_user do

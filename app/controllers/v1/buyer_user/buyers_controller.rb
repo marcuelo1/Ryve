@@ -80,6 +80,15 @@ class V1::BuyerUser::BuyersController < ApplicationController
         end
     end
     
+    def edit_location
+        location = BuyerLocation.find(params[:location_id])
+
+        if location.update(location_params)
+            render json: location, status: 200
+        else
+            render json: {errors: location.errors}, status: 500
+        end
+    end
 
     private
 
