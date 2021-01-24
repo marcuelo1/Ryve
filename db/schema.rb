@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_10_073522) do
+ActiveRecord::Schema.define(version: 2021_01_24_114942) do
 
   create_table "buyer_locations", force: :cascade do |t|
     t.float "longitude"
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 2021_01_10_073522) do
     t.integer "verification_code"
     t.string "category"
     t.string "company_name"
+    t.string "location"
     t.index ["confirmation_token"], name: "index_sellers_on_confirmation_token", unique: true
     t.index ["email"], name: "index_sellers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_sellers_on_reset_password_token", unique: true

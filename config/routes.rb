@@ -9,11 +9,16 @@ Rails.application.routes.draw do
 
       # Verification of seller
       get 'verify', to: 'verification#verify'
-      # List of sellers within certain distance
-      get 'index', to: 'seller#index'
       # Create Product
       post 'products', to: 'seller#create_product'
-
+      # Create Product
+      put 'schedule', to: 'seller#edit_schedule'
+      # List of Products
+      get 'list_of_products', to: 'seller#list_of_products'
+      # Show Product
+      get 'show_product', to: 'seller#show_product'
+      # Edit Location
+      put 'edit_location', to: 'seller#edit_location'
     end
 
     namespace :buyer_user do
@@ -24,10 +29,10 @@ Rails.application.routes.draw do
 
       # Verification of seller
       get 'verify', to: 'verification#verify'
-      # List of locations of user
-      get 'locations', to: 'buyers#locations'
-
-      get 'products', to: 'buyers#products' 
+      # List of products of the seller
+      get 'products_of_seller', to: 'buyers#products_of_seller' 
+      # List of Nearby Stores
+      get 'list_of_nearby_stores', to: 'buyers#list_of_nearby_stores'
     end
 
     namespace :rider_user do

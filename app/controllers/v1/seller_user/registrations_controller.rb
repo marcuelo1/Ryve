@@ -9,7 +9,13 @@ class V1::SellerUser::RegistrationsController < DeviseTokenAuth::RegistrationsCo
         if seller_user.save 
             # Send Verification Code To User
             VerificationMailer.send_code(seller_user).deliver_later
-            render json: seller_user, status: 200
+
+            # Schedule create
+            schedule = Schedule.new()
+            schedule.seller = seller_user
+            schedule.save
+
+            super
         else
             render json: {errors: seller_user.errors}, status: 500
         end

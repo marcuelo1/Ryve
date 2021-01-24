@@ -11,4 +11,8 @@ class Seller < ActiveRecord::Base
   has_many :tags, dependent: :destroy
   has_one :schedule, dependent: :destroy
 
+  # geocdoe
+  geocoded_by :location
+  after_validation :geocode, if: :location_changed?
+
 end
