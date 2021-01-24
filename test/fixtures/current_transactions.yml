@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status: MyString
+  time_remaining: 1
+  is_paid: false
+  buyer: one
+  seller: one
+  rider: one
+
+two:
+  status: MyString
+  time_remaining: 1
+  is_paid: false
+  buyer: two
+  seller: two
+  rider: two
