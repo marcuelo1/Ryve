@@ -44,12 +44,36 @@ class V1::BuyerUser::BuyersController < ApplicationController
 
         render json: transaction, status: 200
     end
+
+    def complete_transaction
+        current = CurrentTransaction.find(params[:checkout_id])
+
+        completed = CompletedTransaction.new(
+            product_id: current.product_id, 
+            rider_id: current.rider_id,
+            buyer_id: current.buyer_id,
+            buyer_location_id: current.buyer_location_id,
+            date: Time.now
+        )
+
+        if completed.save 
+            current.destroy
+            render json: completed, status: 200
+        else
+            render json: {errors: completed.errors}, status: 500
+        end
+    end
     
+    def history_list_of_checkouts
+        transactions = CompletedTransaction.where(buyer: current_user)
+
+        render json: transactions, status: 200
+    end
 
     private
 
     def transaction_params
-       params.permit(:status, :time_remaining, :is_paid, :product_id, :seller_id, :rider_id) 
+       params.permit(:status, :time_remaining, :is_paid, :buyer_id, :product_id, :rider_id, :buyer_location_id) 
     end
     
 end

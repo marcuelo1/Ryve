@@ -29,10 +29,21 @@ Rails.application.routes.draw do
 
       # Verification of seller
       get 'verify', to: 'verification#verify'
+
       # List of products of the seller
       get 'products_of_seller', to: 'buyers#products_of_seller' 
       # List of Nearby Stores
       get 'list_of_nearby_stores', to: 'buyers#list_of_nearby_stores'
+      # Checkout Order
+      post 'checkout_order', to: 'buyers#checkout_order'
+      # Update Transaction Status
+      put 'update_transaction_status', to: 'buyers#update_transaction_status'
+      # Current Transaction
+      get 'current_transaction', to: 'buyers#current_transaction'
+      # Complete a transaction
+      post 'complete_transaction', to: 'buyers#complete_transaction'
+      # History List of Transactions
+      get 'history_list_of_checkouts', to: 'buyers#history_list_of_checkouts'
     end
 
     namespace :rider_user do

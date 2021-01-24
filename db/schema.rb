@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_24_114942) do
+ActiveRecord::Schema.define(version: 2021_01_24_150709) do
 
   create_table "buyer_locations", force: :cascade do |t|
     t.float "longitude"
@@ -68,6 +68,8 @@ ActiveRecord::Schema.define(version: 2021_01_24_114942) do
     t.integer "buyer_location_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "buyer_id", null: false
+    t.index ["buyer_id"], name: "index_completed_transactions_on_buyer_id"
     t.index ["buyer_location_id"], name: "index_completed_transactions_on_buyer_location_id"
     t.index ["product_id"], name: "index_completed_transactions_on_product_id"
     t.index ["rider_id"], name: "index_completed_transactions_on_rider_id"
@@ -82,7 +84,9 @@ ActiveRecord::Schema.define(version: 2021_01_24_114942) do
     t.integer "rider_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "buyer_location_id", null: false
     t.index ["buyer_id"], name: "index_current_transactions_on_buyer_id"
+    t.index ["buyer_location_id"], name: "index_current_transactions_on_buyer_location_id"
     t.index ["product_id"], name: "index_current_transactions_on_product_id"
     t.index ["rider_id"], name: "index_current_transactions_on_rider_id"
   end
@@ -150,6 +154,31 @@ ActiveRecord::Schema.define(version: 2021_01_24_114942) do
     t.index ["seller_id"], name: "index_schedules_on_seller_id"
   end
 
+  create_table "seller_users", force: :cascade do |t|
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.boolean "allow_password_change", default: false
+    t.datetime "remember_created_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.string "name"
+    t.string "nickname"
+    t.string "image"
+    t.string "email"
+    t.text "tokens"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["confirmation_token"], name: "index_seller_users_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_seller_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_seller_users_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_seller_users_on_uid_and_provider", unique: true
+  end
+
   create_table "sellers", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -194,8 +223,10 @@ ActiveRecord::Schema.define(version: 2021_01_24_114942) do
   add_foreign_key "cart_items", "buyers"
   add_foreign_key "cart_items", "products"
   add_foreign_key "completed_transactions", "buyer_locations"
+  add_foreign_key "completed_transactions", "buyers"
   add_foreign_key "completed_transactions", "products"
   add_foreign_key "completed_transactions", "riders"
+  add_foreign_key "current_transactions", "buyer_locations"
   add_foreign_key "current_transactions", "buyers"
   add_foreign_key "current_transactions", "products"
   add_foreign_key "current_transactions", "riders"
