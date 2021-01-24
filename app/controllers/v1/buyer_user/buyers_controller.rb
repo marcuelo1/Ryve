@@ -70,10 +70,26 @@ class V1::BuyerUser::BuyersController < ApplicationController
         render json: transactions, status: 200
     end
 
+    def add_location
+        location = current_user.buyer_locations.new(location_params)
+
+        if location.save 
+            render json: location, status: 200
+        else 
+            render json: {errors: location.errors}, status: 500
+        end
+    end
+    
+
     private
 
     def transaction_params
        params.permit(:status, :time_remaining, :is_paid, :buyer_id, :product_id, :rider_id, :buyer_location_id) 
     end
+
+    def location_params
+        params.permit(:longitude, :latitude, :name)
+    end
+    
     
 end

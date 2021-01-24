@@ -44,6 +44,8 @@ Rails.application.routes.draw do
       post 'complete_transaction', to: 'buyers#complete_transaction'
       # History List of Transactions
       get 'history_list_of_checkouts', to: 'buyers#history_list_of_checkouts'
+      # Add Location
+      post 'add_location', to: 'buyers#add_location'
     end
 
     namespace :rider_user do
