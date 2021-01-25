@@ -20,12 +20,25 @@ class V1::BuyerUser::BuyersController < ApplicationController
     end
 
     def checkout_order
-        checkout = CurrentTransaction.new(transaction_params)
+        transaction = CurrentTransaction.new(transaction_params)
+        transaction.seller = Seller.find(Product.find(params[:products][0]).product_category.seller_id)
 
-        if checkout.save 
-            render json: checkout, status: 200
+        if transaction.save 
+            checkout = CheckoutOrder.create()
+            transaction.checkout_order_id = checkout.id 
+            transaction.save
+
+            params[:products].each_with_index do |product, index|
+                CheckoutProduct.create(
+                    product_id: product.to_i,
+                    checkout_order_id: checkout.id,
+                    quantity: params[:quantities][index].to_i,
+                )
+            end
+
+            render json: transaction, status: 200
         else
-            render json: {errors: checkout.errors}, status: 500
+            render json: {errors: transaction.errors}, status: 500
         end
     end
 
@@ -49,9 +62,10 @@ class V1::BuyerUser::BuyersController < ApplicationController
         current = CurrentTransaction.find(params[:checkout_id])
 
         completed = CompletedTransaction.new(
-            product_id: current.product_id, 
+            checkout_order_id: current.checkout_order_id, 
             rider_id: current.rider_id,
             buyer_id: current.buyer_id,
+            seller_id: current.seller_id,
             buyer_location_id: current.buyer_location_id,
             date: Time.now
         )
@@ -93,12 +107,11 @@ class V1::BuyerUser::BuyersController < ApplicationController
     private
 
     def transaction_params
-       params.permit(:status, :time_remaining, :is_paid, :buyer_id, :product_id, :rider_id, :buyer_location_id) 
+       params.permit(:status, :time_remaining, :is_paid, :buyer_id, :rider_id, :buyer_location_id) 
     end
 
     def location_params
         params.permit(:longitude, :latitude, :name)
     end
-    
     
 end

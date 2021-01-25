@@ -58,6 +58,11 @@ class V1::SellerUser::SellerController < ApplicationController
             render json: {}, status: 500
         end
     end
+
+    def list_of_current_transactions
+        
+    end
+    
     
     private
     def schedule_params
