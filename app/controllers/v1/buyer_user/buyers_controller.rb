@@ -55,7 +55,7 @@ class V1::BuyerUser::BuyersController < ApplicationController
     def current_transaction
         transaction = CurrentTransaction.find(params[:checkout_id]) 
 
-        render json: transaction, status: 200
+        render json: CurrentTransactionSerializer.new(transaction).attributes, status: 200 # Edit Render show products
     end
 
     def complete_transaction
