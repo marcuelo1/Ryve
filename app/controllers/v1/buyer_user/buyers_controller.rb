@@ -104,6 +104,15 @@ class V1::BuyerUser::BuyersController < ApplicationController
         end
     end
 
+    def add_to_cart
+        product = Product.find(params[:product_id])
+        seller = product.product_category.seller
+        cart = Cart.where(buyer: current_user, seller: seller).first_create
+
+        render json: cart
+    end
+    
+
     private
 
     def transaction_params

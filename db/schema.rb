@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_134642) do
+ActiveRecord::Schema.define(version: 2021_01_26_085113) do
 
   create_table "buyer_locations", force: :cascade do |t|
     t.float "longitude"
@@ -59,6 +59,16 @@ ActiveRecord::Schema.define(version: 2021_01_25_134642) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["buyer_id"], name: "index_cart_items_on_buyer_id"
     t.index ["product_id"], name: "index_cart_items_on_product_id"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.integer "buyer_id", null: false
+    t.integer "seller_id", null: false
+    t.integer "checkout_order_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_carts_on_buyer_id"
+    t.index ["seller_id"], name: "index_carts_on_seller_id"
   end
 
   create_table "checkout_orders", force: :cascade do |t|
@@ -239,6 +249,8 @@ ActiveRecord::Schema.define(version: 2021_01_25_134642) do
   add_foreign_key "buyer_locations", "buyers"
   add_foreign_key "cart_items", "buyers"
   add_foreign_key "cart_items", "products"
+  add_foreign_key "carts", "buyers"
+  add_foreign_key "carts", "sellers"
   add_foreign_key "checkout_products", "checkout_orders"
   add_foreign_key "checkout_products", "products"
   add_foreign_key "completed_transactions", "buyer_locations"

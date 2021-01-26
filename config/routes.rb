@@ -48,6 +48,8 @@ Rails.application.routes.draw do
       post 'add_location', to: 'buyers#add_location'
       # Edit Location
       put 'edit_location', to: 'buyers#edit_location'
+      # Add to Cart
+      post 'add_to_cart', to: 'buyers#add_to_cart'
     end
 
     namespace :rider_user do
