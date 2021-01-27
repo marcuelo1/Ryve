@@ -55,7 +55,7 @@ class V1::BuyerUser::BuyersController < ApplicationController
     def current_transaction
         transaction = CurrentTransaction.find(params[:checkout_id]) 
 
-        render json: transaction, status: 200
+        render json: CurrentTransactionBlueprint.render(transaction), status: 200
     end
 
     def complete_transaction
@@ -102,6 +102,14 @@ class V1::BuyerUser::BuyersController < ApplicationController
         else
             render json: {errors: location.errors}, status: 500
         end
+    end
+
+    def add_to_cart
+        product = Product.find(params[:product_id])
+        seller = product.product_category.seller
+        cart = Cart.where(buyer: current_user, seller: seller).first_create
+
+        render json: cart
     end
 
     private
