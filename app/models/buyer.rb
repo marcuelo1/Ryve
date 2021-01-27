@@ -8,7 +8,7 @@ class Buyer < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :buyer_locations, dependent: :destroy
-  has_many :cart_items, dependent: :destroy
+  has_many :carts, dependent: :destroy
   has_many :current_transactions, dependent: :destroy
   has_many :completed_transactions, dependent: :destroy
 end

@@ -10,6 +10,7 @@ class Seller < ActiveRecord::Base
   has_many :product_categories, dependent: :destroy
   has_many :tags, dependent: :destroy
   has_one :schedule, dependent: :destroy
+  has_many :carts, dependent: :destroy
 
   # geocdoe
   geocoded_by :location

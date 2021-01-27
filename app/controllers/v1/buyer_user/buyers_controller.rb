@@ -81,7 +81,7 @@ class V1::BuyerUser::BuyersController < ApplicationController
     def history_list_of_checkouts
         transactions = CompletedTransaction.where(buyer: current_user)
 
-        render json: transactions, status: 200
+        render json: CompletedTransactionBlueprint.render(transactions), status: 200
     end
 
     def add_location
@@ -107,9 +107,27 @@ class V1::BuyerUser::BuyersController < ApplicationController
     def add_to_cart
         product = Product.find(params[:product_id])
         seller = product.product_category.seller
-        cart = Cart.where(buyer: current_user, seller: seller).first_create
+        cart = Cart.where(buyer: current_user, seller: seller).first_or_create
 
-        render json: cart
+        if cart.checkout_order_id == nil 
+            checkout_order = CheckoutOrder.create()
+            cart.checkout_order_id = checkout_order.id 
+            cart.save 
+
+            checkout_product = checkout_order.checkout_products.create(product_id: params[:product_id], quantity: params[:quantity])
+        else
+            checkout_order = CheckoutOrder.find(cart.checkout_order_id)
+            checkout_product = checkout_order.checkout_products.where(product_id: params[:product_id]).first 
+
+            if checkout_product 
+                product_current_quantity = checkout_product.quantity
+                checkout_product.update(quantity: product_current_quantity + params[:quantity].to_i)
+            else
+                checkout_product = checkout_order.checkout_products.create(product_id: params[:product_id], quantity: params[:quantity])
+            end
+        end
+
+        render json: checkout_product
     end
 
     private
