@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_28_101812) do
+ActiveRecord::Schema.define(version: 2021_01_28_134630) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -137,6 +137,44 @@ ActiveRecord::Schema.define(version: 2021_01_28_101812) do
     t.index ["buyer_location_id"], name: "index_current_transactions_on_buyer_location_id"
     t.index ["rider_id"], name: "index_current_transactions_on_rider_id"
     t.index ["seller_id"], name: "index_current_transactions_on_seller_id"
+  end
+
+  create_table "elec_comp_transactions", force: :cascade do |t|
+    t.integer "buyer_id", null: false
+    t.integer "rider_id", null: false
+    t.integer "electricity_provider_id", null: false
+    t.string "electricity_bill_number"
+    t.datetime "date_transacted"
+    t.string "type_of_transaction"
+    t.datetime "date_paid"
+    t.integer "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_elec_comp_transactions_on_buyer_id"
+    t.index ["electricity_provider_id"], name: "index_elec_comp_transactions_on_electricity_provider_id"
+    t.index ["rider_id"], name: "index_elec_comp_transactions_on_rider_id"
+  end
+
+  create_table "elec_curr_transactions", force: :cascade do |t|
+    t.integer "buyer_id", null: false
+    t.integer "rider_id", null: false
+    t.integer "electricity_provider_id", null: false
+    t.string "electricity_bill_number"
+    t.string "status"
+    t.string "type_of_transaction"
+    t.boolean "is_paid"
+    t.integer "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_elec_curr_transactions_on_buyer_id"
+    t.index ["electricity_provider_id"], name: "index_elec_curr_transactions_on_electricity_provider_id"
+    t.index ["rider_id"], name: "index_elec_curr_transactions_on_rider_id"
+  end
+
+  create_table "electricity_providers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -284,6 +322,12 @@ ActiveRecord::Schema.define(version: 2021_01_28_101812) do
   add_foreign_key "current_transactions", "buyers"
   add_foreign_key "current_transactions", "riders"
   add_foreign_key "current_transactions", "sellers"
+  add_foreign_key "elec_comp_transactions", "buyers"
+  add_foreign_key "elec_comp_transactions", "electricity_providers"
+  add_foreign_key "elec_comp_transactions", "riders"
+  add_foreign_key "elec_curr_transactions", "buyers"
+  add_foreign_key "elec_curr_transactions", "electricity_providers"
+  add_foreign_key "elec_curr_transactions", "riders"
   add_foreign_key "product_categories", "sellers"
   add_foreign_key "products", "product_categories"
   add_foreign_key "schedules", "sellers"

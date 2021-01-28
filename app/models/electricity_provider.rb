@@ -1,0 +1,2 @@
+class ElectricityProvider < ApplicationRecord
+end

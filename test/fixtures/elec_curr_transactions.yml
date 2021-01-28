@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  buyer: one
+  rider: one
+  electricity_provider: one
+  electricity_bill_number: MyString
+  status: MyString
+  type_of_transaction: MyString
+  is_paid: false
+  amount: 1
+
+two:
+  buyer: two
+  rider: two
+  electricity_provider: two
+  electricity_bill_number: MyString
+  status: MyString
+  type_of_transaction: MyString
+  is_paid: false
+  amount: 1
