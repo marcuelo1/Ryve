@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       post 'products', to: 'seller#create_product'
       # Update Product Image
       put 'edit_product_image', to: 'seller#edit_product_image'
+      # Update Product Availability
+      put 'edit_product_availability', to: 'seller#edit_product_availability'
       # Create Product
       put 'schedule', to: 'seller#edit_schedule'
       # List of Products

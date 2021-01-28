@@ -1,5 +1,5 @@
 class ProductBlueprint < Blueprinter::Base
-    fields :id 
+    fields :id, :is_available
 
     association :product_category, blueprint: ProductCategoryBlueprint do |product|
         product.product_category

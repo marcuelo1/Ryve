@@ -114,6 +114,15 @@ class V1::SellerUser::SellerController < ApplicationController
             background_image: current_user.background_image.attached? ? url_for(current_user.background_image) : nil
             ), status: 200
     end
+
+    def edit_product_availability
+        product = Product.find(params[:product_id])
+
+        product.update(is_available: params[:is_available])
+
+        render json: ProductBlueprint.render(product, product_image: product.product_image.attached? ? url_for(product.product_image) : nil), status: 200
+    end
+    
     
     private
     def schedule_params
