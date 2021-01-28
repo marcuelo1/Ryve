@@ -21,20 +21,14 @@ class V1::BuyerUser::BuyersController < ApplicationController
 
     def checkout_order
         transaction = CurrentTransaction.new(transaction_params)
-        transaction.seller = Seller.find(Product.find(params[:products][0]).product_category.seller_id)
+        cart = Cart.find(params[:cart_id])
+        transaction.seller = cart.seller
 
         if transaction.save 
-            checkout = CheckoutOrder.create()
+            checkout = CheckoutOrder.find(cart.checkout_order_id)
             transaction.checkout_order_id = checkout.id 
             transaction.save
-
-            params[:products].each_with_index do |product, index|
-                CheckoutProduct.create(
-                    product_id: product.to_i,
-                    checkout_order_id: checkout.id,
-                    quantity: params[:quantities][index].to_i,
-                )
-            end
+            cart.destroy
 
             render json: transaction, status: 200
         else
@@ -127,7 +121,7 @@ class V1::BuyerUser::BuyersController < ApplicationController
             end
         end
 
-        render json: checkout_product
+        render json: CartBlueprint.render(cart)
     end
 
     private
