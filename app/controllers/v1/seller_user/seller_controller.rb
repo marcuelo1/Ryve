@@ -19,7 +19,7 @@ class V1::SellerUser::SellerController < ApplicationController
             #     }
             # ]
         params[:products].each do |product|
-            temp_product = Product.new(name: product[:name], price: product[:price], discount: product[:discount], product_category: category)
+            temp_product = Product.new(name: product[:name], price: product[:price], discount: product[:discount], product_category: category, product_image: product[:product_image])
             
             if !temp_product.save 
                 render json: {errors: temp_product.errors}, status: 500
@@ -28,6 +28,14 @@ class V1::SellerUser::SellerController < ApplicationController
         end
 
         render json: {}, status: 200
+    end
+
+    def edit_product_image
+        product = Product.find(params[:product_id])
+
+        product.update(product_image: params[:product_image])
+
+        render json: ProductBlueprint.render(product, product_image: product.product_image.attached? ? url_for(product.product_image) : nil), status: 200
     end
 
     def edit_schedule

@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       get 'verify', to: 'verification#verify'
       # Create Product
       post 'products', to: 'seller#create_product'
+      # Update Product Image
+      put 'edit_product_image', to: 'seller#edit_product_image'
       # Create Product
       put 'schedule', to: 'seller#edit_schedule'
       # List of Products
