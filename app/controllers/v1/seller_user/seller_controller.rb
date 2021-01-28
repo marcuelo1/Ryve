@@ -71,7 +71,41 @@ class V1::SellerUser::SellerController < ApplicationController
         render json: CompletedTransactionBlueprint.render(transactions), status: 200
     end
     
+    def post_profile_image
+        current_user.update(profile_image: params[:profile_image])
+
+        render json: SellerBlueprint.render(current_user, 
+            profile_image: current_user.profile_image.attached? ? url_for(current_user.profile_image) : nil, 
+            background_image: current_user.background_image.attached? ? url_for(current_user.background_image) : nil
+            ), status: 200
+    end
     
+    def edit_profile_image
+        current_user.update(profile_image: params[:profile_image])
+
+        render json: SellerBlueprint.render(current_user, 
+            profile_image: current_user.profile_image.attached? ? url_for(current_user.profile_image) : nil, 
+            background_image: current_user.background_image.attached? ? url_for(current_user.background_image) : nil
+            ), status: 200
+    end
+    
+    def post_background_image
+        current_user.update(background_image: params[:background_image])
+
+        render json: SellerBlueprint.render(current_user, 
+            profile_image: current_user.profile_image.attached? ? url_for(current_user.profile_image) : nil, 
+            background_image: current_user.background_image.attached? ? url_for(current_user.background_image) : nil
+            ), status: 200
+    end
+    
+    def edit_background_image
+        current_user.update(background_image: params[:background_image])
+
+        render json: SellerBlueprint.render(current_user, 
+            profile_image: current_user.profile_image.attached? ? url_for(current_user.profile_image) : nil, 
+            background_image: current_user.background_image.attached? ? url_for(current_user.background_image) : nil
+            ), status: 200
+    end
     
     private
     def schedule_params

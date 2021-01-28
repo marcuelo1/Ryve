@@ -23,6 +23,14 @@ Rails.application.routes.draw do
       get 'list_of_current_transactions', to: 'seller#list_of_current_transactions'
       # List of Completed Transactions
       get 'list_of_completed_transactions', to: 'seller#list_of_completed_transactions'
+      # Post Profile Image
+      post 'post_profile_image', to: 'seller#post_profile_image'
+      # Update Profile Image
+      put 'edit_profile_image', to: 'seller#edit_profile_image'
+      # Post Profile Image
+      post 'post_background_image', to: 'seller#post_background_image'
+      # Update Profile Image
+      put 'edit_background_image', to: 'seller#edit_background_image'
     end
 
     namespace :buyer_user do
