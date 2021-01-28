@@ -19,6 +19,10 @@ Rails.application.routes.draw do
       get 'show_product', to: 'seller#show_product'
       # Edit Location
       put 'edit_location', to: 'seller#edit_location'
+      # List of Current Transactions
+      get 'list_of_current_transactions', to: 'seller#list_of_current_transactions'
+      # List of Completed Transactions
+      get 'list_of_completed_transactions', to: 'seller#list_of_completed_transactions'
     end
 
     namespace :buyer_user do

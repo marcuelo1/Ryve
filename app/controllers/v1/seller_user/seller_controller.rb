@@ -60,8 +60,17 @@ class V1::SellerUser::SellerController < ApplicationController
     end
 
     def list_of_current_transactions
-        
+        transactions = CurrentTransaction.where(seller: current_user)
+
+        render json: CurrentTransactionBlueprint.render(transactions), status: 200
     end
+
+    def list_of_completed_transactions
+        transactions = CompletedTransaction.where(seller: current_user)
+
+        render json: CompletedTransactionBlueprint.render(transactions), status: 200
+    end
+    
     
     
     private
