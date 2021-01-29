@@ -48,19 +48,17 @@ class V1::BuyerUser::BuyersController < ApplicationController
 
     ####    TRANSACTIONS
     def checkout_order
-        transaction = CurrentTransaction.new(transaction_params)
+        pending_order = PendingOrder.new(buyer: current_user, is_paid: params[:is_paid], buyer_location_id: params[:buyer_location_id])
         cart = Cart.find(params[:cart_id])
-        transaction.seller = cart.seller
+        pending_order.seller = cart.seller
+        pending_order.checkout_order_id = cart.checkout_order_id
 
-        if transaction.save 
-            checkout = CheckoutOrder.find(cart.checkout_order_id)
-            transaction.checkout_order_id = checkout.id 
-            transaction.save
+        if pending_order.save 
             cart.destroy
 
-            render json: transaction, status: 200
+            render json: pending_order, status: 200
         else
-            render json: {errors: transaction.errors}, status: 500
+            render json: {errors: pending_order.errors}, status: 500
         end
     end
 
@@ -68,36 +66,6 @@ class V1::BuyerUser::BuyersController < ApplicationController
         transaction = CurrentTransaction.find(params[:checkout_id]) 
 
         render json: CurrentTransactionBlueprint.render(transaction), status: 200
-    end
-
-    def update_transaction_status
-       transaction = CurrentTransaction.find(params[:checkout_id]) 
-
-       if transaction.update(status: params[:status], time_remaining: params[:time_remaining])
-        render json: transaction, status: 200
-       else
-        render json: {}, status: 500
-       end
-    end
-
-    def complete_transaction
-        current = CurrentTransaction.find(params[:checkout_id])
-
-        completed = CompletedTransaction.new(
-            checkout_order_id: current.checkout_order_id, 
-            rider_id: current.rider_id,
-            buyer_id: current.buyer_id,
-            seller_id: current.seller_id,
-            buyer_location_id: current.buyer_location_id,
-            date: Time.now
-        )
-
-        if completed.save 
-            current.destroy
-            render json: completed, status: 200
-        else
-            render json: {errors: completed.errors}, status: 500
-        end
     end
     
     def history_list_of_checkouts
@@ -220,10 +188,6 @@ class V1::BuyerUser::BuyersController < ApplicationController
     end
 
     private
-
-    def transaction_params
-       params.permit(:status, :time_remaining, :is_paid, :buyer_id, :rider_id, :buyer_location_id) 
-    end
 
     def location_params
         params.permit(:longitude, :latitude, :name)

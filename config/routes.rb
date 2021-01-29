@@ -82,12 +82,8 @@ Rails.application.routes.draw do
       ####
       # Checkout Order
       post 'checkout_order', to: 'buyers#checkout_order'
-      # Update Transaction Status
-      put 'update_transaction_status', to: 'buyers#update_transaction_status'
       # Current Transaction
       get 'current_transaction', to: 'buyers#current_transaction'
-      # Complete a transaction
-      post 'complete_transaction', to: 'buyers#complete_transaction'
       # History List of Transactions
       get 'history_list_of_checkouts', to: 'buyers#history_list_of_checkouts'
       #########################################################################################################
@@ -124,8 +120,20 @@ Rails.application.routes.draw do
 
       # Verification of seller
       get 'verify', to: 'verification#verify'
-
-      get 'test', to: 'riders#test'
+      #########################################################################################################
+      ####
+      #### TRANSACTIONS
+      ####
+      # List of Pending Orders
+      get 'list_of_pending_orders', to: 'riders#list_of_pending_orders'
+      # Accept Pending Order
+      post 'accept_pending_order', to: 'riders#accept_pending_order'
+      # Update Transaction Status
+      put 'update_transaction_status', to: 'riders#update_transaction_status'
+      # Current Transaction
+      get 'current_transaction', to: 'riders#current_transaction'
+      # Complete a transaction
+      post 'complete_transaction', to: 'riders#complete_transaction'
     end
   end
 end
