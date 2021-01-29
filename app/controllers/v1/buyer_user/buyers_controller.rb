@@ -173,6 +173,52 @@ class V1::BuyerUser::BuyersController < ApplicationController
         end
     end
 
+    ####    WATER
+    def checkout_water_transaction
+        water_transaction = WaterCurrTransaction.new(water_transaction_params)
+        
+        if water_transaction.save 
+            render json: water_transaction, status: 200
+        else
+            render json: {errors: water_transaction.errors}, status: 500
+        end
+    end
+
+    def change_water_current_transaction_status
+        water_transaction = WaterCurrTransaction.find(params[:water_current_transaction_id])
+
+        if water_transaction.update(status: params[:status])
+            render json: water_transaction, status: 200
+        else
+            render json: {errors: water_transaction.errors}, status: 500
+        end
+    end
+
+    def show_water_current_transaction
+        water_transaction = WaterCurrTransaction.find(params[:water_current_transaction_id])
+        render json: water_transaction, status: 200
+    end
+    
+    def complete_water_current_transaction
+        water_current_transaction = WaterCurrTransaction.find(params[:water_current_transaction_id])
+        water_completed_transaction = WaterCompTransaction.new(
+            buyer_id: water_current_transaction.buyer_id,
+            rider_id: water_current_transaction.rider_id,
+            electricity_provider_id: water_current_transaction.electricity_provider_id,
+            electricity_bill_number: water_current_transaction.electricity_bill_number,
+            date_transacted: water_current_transaction.created_at,
+            type_of_transaction: water_current_transaction.type_of_transaction,
+            date_paid: Time.now,
+            amount: water_current_transaction.amount,
+        )
+
+        if water_completed_transaction.save 
+            render json: water_completed_transaction, status: 200
+        else
+            render json: {errors: water_completed_transaction.errors}, status: 500
+        end
+    end
+
     private
 
     def transaction_params
@@ -186,6 +232,8 @@ class V1::BuyerUser::BuyersController < ApplicationController
     def electricity_transaction_params
         params.permit(:buyer_id, :rider_id, :electricity_provider_id, :electricity_bill_number, :status, :type_of_transaction, :is_paid, :amount)
     end
-    
-    
+
+    def water_transaction_params
+        params.permit(:buyer_id, :rider_id, :water_provider_id, :water_bill_number, :status, :type_of_transaction, :is_paid, :amount)
+    end
 end

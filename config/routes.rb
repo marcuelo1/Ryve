@@ -9,6 +9,24 @@ Rails.application.routes.draw do
 
       # Verification of seller
       get 'verify', to: 'verification#verify'
+      #########################################################################################################
+      ####
+      ####  SELLER PROFILE
+      ####
+      # Edit Location
+      put 'edit_location', to: 'seller#edit_location'
+      # Post Profile Image
+      post 'post_profile_image', to: 'seller#post_profile_image'
+      # Update Profile Image
+      put 'edit_profile_image', to: 'seller#edit_profile_image'
+      # Post Profile Image
+      post 'post_background_image', to: 'seller#post_background_image'
+      # Update Profile Image
+      put 'edit_background_image', to: 'seller#edit_background_image'
+      #########################################################################################################
+      ####
+      ####  SELLER PRODUCTS
+      ####
       # Create Product
       post 'products', to: 'seller#create_product'
       # Update Product Image
@@ -21,20 +39,15 @@ Rails.application.routes.draw do
       get 'list_of_products', to: 'seller#list_of_products'
       # Show Product
       get 'show_product', to: 'seller#show_product'
-      # Edit Location
-      put 'edit_location', to: 'seller#edit_location'
+      #########################################################################################################
+      ####
+      ####  TRANSACTIONS
+      ####
       # List of Current Transactions
       get 'list_of_current_transactions', to: 'seller#list_of_current_transactions'
       # List of Completed Transactions
       get 'list_of_completed_transactions', to: 'seller#list_of_completed_transactions'
-      # Post Profile Image
-      post 'post_profile_image', to: 'seller#post_profile_image'
-      # Update Profile Image
-      put 'edit_profile_image', to: 'seller#edit_profile_image'
-      # Post Profile Image
-      post 'post_background_image', to: 'seller#post_background_image'
-      # Update Profile Image
-      put 'edit_background_image', to: 'seller#edit_background_image'
+      #########################################################################################################
     end
 
     namespace :buyer_user do
@@ -45,11 +58,28 @@ Rails.application.routes.draw do
 
       # Verification of seller
       get 'verify', to: 'verification#verify'
-
-      # List of products of the seller
-      get 'products_of_seller', to: 'buyers#products_of_seller' 
+      #########################################################################################################
+      ####
+      ####  BUYER'S PROFILE
+      ####
+      # Add Location
+      post 'add_location', to: 'buyers#add_location'
+      # Edit Location
+      put 'edit_location', to: 'buyers#edit_location'
+      #########################################################################################################
+      ####
+      ####  STORES
+      ####
       # List of Nearby Stores
       get 'list_of_nearby_stores', to: 'buyers#list_of_nearby_stores'
+      # List of products of the seller
+      get 'products_of_seller', to: 'buyers#products_of_seller' 
+      # Add to Cart
+      post 'add_to_cart', to: 'buyers#add_to_cart'
+      #########################################################################################################
+      ####
+      ####  BUYER'S TRANSACTIONS
+      ####
       # Checkout Order
       post 'checkout_order', to: 'buyers#checkout_order'
       # Update Transaction Status
@@ -60,12 +90,30 @@ Rails.application.routes.draw do
       post 'complete_transaction', to: 'buyers#complete_transaction'
       # History List of Transactions
       get 'history_list_of_checkouts', to: 'buyers#history_list_of_checkouts'
-      # Add Location
-      post 'add_location', to: 'buyers#add_location'
-      # Edit Location
-      put 'edit_location', to: 'buyers#edit_location'
-      # Add to Cart
-      post 'add_to_cart', to: 'buyers#add_to_cart'
+      #########################################################################################################
+      ####
+      #### ELECTRICITY UTILITY
+      ####
+      # Electricity Checkout
+      post 'checkout_electricity_transaction', to: 'buyers#checkout_electricity_transaction'
+      # Change Electricity Transaction Status
+      put 'change_electricity_current_transaction_status', to: 'buyers#change_electricity_current_transaction_status'
+      # Show Electricity Current Transaction
+      get 'show_electricity_current_transaction', to: 'buyers#show_electricity_current_transaction'
+      # Complete Electricity Transaction
+      post 'complete_electricity_current_transaction', to: 'buyers#complete_electricity_current_transaction'
+      #########################################################################################################
+      ####
+      #### WATER UTILITY
+      ####
+      # Water Checkout
+      post 'checkout_water_transaction', to: 'buyers#checkout_water_transaction'
+      # Change Water Transaction Status
+      put 'change_water_current_transaction_status', to: 'buyers#change_water_current_transaction_status'
+      # Show Water Current Transaction
+      get 'show_water_current_transaction', to: 'buyers#show_water_current_transaction'
+      # Complete Water Transaction
+      post 'complete_water_current_transaction', to: 'buyers#complete_water_current_transaction'
     end
 
     namespace :rider_user do
