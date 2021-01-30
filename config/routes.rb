@@ -88,28 +88,14 @@ Rails.application.routes.draw do
       get 'history_list_of_checkouts', to: 'buyers#history_list_of_checkouts'
       #########################################################################################################
       ####
-      #### ELECTRICITY UTILITY
+      #### UTILITY
       ####
-      # Electricity Checkout
-      post 'checkout_electricity_transaction', to: 'buyers#checkout_electricity_transaction'
-      # Change Electricity Transaction Status
-      put 'change_electricity_current_transaction_status', to: 'buyers#change_electricity_current_transaction_status'
-      # Show Electricity Current Transaction
-      get 'show_electricity_current_transaction', to: 'buyers#show_electricity_current_transaction'
-      # Complete Electricity Transaction
-      post 'complete_electricity_current_transaction', to: 'buyers#complete_electricity_current_transaction'
-      #########################################################################################################
-      ####
-      #### WATER UTILITY
-      ####
-      # Water Checkout
-      post 'checkout_water_transaction', to: 'buyers#checkout_water_transaction'
-      # Change Water Transaction Status
-      put 'change_water_current_transaction_status', to: 'buyers#change_water_current_transaction_status'
-      # Show Water Current Transaction
-      get 'show_water_current_transaction', to: 'buyers#show_water_current_transaction'
-      # Complete Water Transaction
-      post 'complete_water_current_transaction', to: 'buyers#complete_water_current_transaction'
+      # Utility Checkout
+      post 'checkout_utility_transaction', to: 'buyers#checkout_utility_transaction'
+      # Show Utility Current Transaction
+      get 'show_utility_current', to: 'buyers#show_utility_current'
+      # List of Utility Completed Transactions
+      get 'list_of_completed_utilities', to: 'buyers#list_of_completed_utilities'
     end
 
     namespace :rider_user do
@@ -122,7 +108,7 @@ Rails.application.routes.draw do
       get 'verify', to: 'verification#verify'
       #########################################################################################################
       ####
-      #### TRANSACTIONS
+      #### NORMAL TRANSACTIONS
       ####
       # List of Pending Orders
       get 'list_of_pending_orders', to: 'riders#list_of_pending_orders'
@@ -134,6 +120,16 @@ Rails.application.routes.draw do
       get 'current_transaction', to: 'riders#current_transaction'
       # Complete a transaction
       post 'complete_transaction', to: 'riders#complete_transaction'
+      #########################################################################################################
+      ####
+      ####  UTILITY TRANSACTIONS
+      ####
+      # List of Utility Pendings
+      get 'list_of_pending_utilities', to: 'riders#list_of_pending_utilities'
+      # Accept Utility 
+      post 'accept_utility_pending', to: 'riders#accept_utility_pending'
+      # Change Utility Current Transaction
+      put 'change_utility_current_status', to: 'riders#change_utility_current_status'
     end
   end
 end

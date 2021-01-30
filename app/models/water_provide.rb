@@ -1,2 +1,0 @@
-class WaterProvide < ApplicationRecord
-end

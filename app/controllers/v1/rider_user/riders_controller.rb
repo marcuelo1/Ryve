@@ -1,6 +1,7 @@
 class V1::RiderUser::RidersController < ApplicationController
     before_action :authenticate_v1_rider_user_rider!
 
+    ####    NORMAL TRANSACTIONS
     def list_of_pending_orders
         lat = params[:latitude].to_f 
         long = params[:longitude].to_f 
@@ -14,6 +15,7 @@ class V1::RiderUser::RidersController < ApplicationController
         current_transaction = CurrentTransaction.new(transaction_params)
         current_transaction.is_paid = pending_order.is_paid
         current_transaction.buyer = pending_order.buyer
+        current_transaction.rider = current_user
         current_transaction.buyer_location = pending_order.buyer_location
         current_transaction.seller = pending_order.seller
         current_transaction.checkout_order_id = pending_order.checkout_order_id 
@@ -63,6 +65,45 @@ class V1::RiderUser::RidersController < ApplicationController
         end
     end
 
+    ####    UTILITY TRANSACTIONS
+    def list_of_pending_utilities
+        lat = params[:latitude].to_f 
+        long = params[:longitude].to_f 
+        utilities = UtilityPending.near([lat, long], 50, units: :km)
+
+        render json: utilities, status: 200
+    end
+
+    def accept_utility_pending
+        utility = UtilityPending.find(params[:utility_id])
+        utility_current = UtilityCurrent.new()
+        utility_current.buyer = utility.buyer
+        utility_current.rider = current_user 
+        utility_current.bill_number = utility.bill_number
+        utility_current.provider = utility.provider
+        utility_current.type_of_transaction = utility.type_of_transaction
+        utility_current.is_paid = utility.is_paid
+        utility_current.amount = utility.amount
+
+        if utility_current.save 
+            utility.destroy 
+
+            render json: utility, status: 200
+        else
+            render json: {errors: utility_current.errors}, status: 500
+        end
+    end
+    
+    def change_utility_current_status
+        utility = UtilityCurrent.find(params[:utility_current_id])
+
+        if utility.update(status: params[:status])
+            render json: utility, status: 200
+        else
+            render json: {errors: utility.errors}, status: 500
+        end
+    end
+    
     private
 
     def transaction_params

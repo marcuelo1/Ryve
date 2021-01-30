@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_29_135529) do
+ActiveRecord::Schema.define(version: 2021_01_30_042707) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -319,6 +319,54 @@ ActiveRecord::Schema.define(version: 2021_01_29_135529) do
     t.index ["seller_id"], name: "index_tags_on_seller_id"
   end
 
+  create_table "utility_completeds", force: :cascade do |t|
+    t.integer "buyer_id", null: false
+    t.integer "rider_id", null: false
+    t.string "bill_number"
+    t.string "provider_type", null: false
+    t.integer "provider_id", null: false
+    t.datetime "date_transacted"
+    t.string "type_of_transaction"
+    t.datetime "date_paid"
+    t.integer "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_utility_completeds_on_buyer_id"
+    t.index ["provider_type", "provider_id"], name: "index_utility_completeds_on_provider_type_and_provider_id"
+    t.index ["rider_id"], name: "index_utility_completeds_on_rider_id"
+  end
+
+  create_table "utility_currents", force: :cascade do |t|
+    t.integer "buyer_id", null: false
+    t.integer "rider_id", null: false
+    t.string "bill_number"
+    t.string "provider_type", null: false
+    t.integer "provider_id", null: false
+    t.string "status"
+    t.string "type_of_transaction"
+    t.boolean "is_paid"
+    t.integer "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_utility_currents_on_buyer_id"
+    t.index ["provider_type", "provider_id"], name: "index_utility_currents_on_provider_type_and_provider_id"
+    t.index ["rider_id"], name: "index_utility_currents_on_rider_id"
+  end
+
+  create_table "utility_pendings", force: :cascade do |t|
+    t.integer "buyer_id", null: false
+    t.string "bill_number"
+    t.string "provider_type", null: false
+    t.integer "provider_id", null: false
+    t.string "type_of_transaction"
+    t.boolean "is_paid"
+    t.integer "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_utility_pendings_on_buyer_id"
+    t.index ["provider_type", "provider_id"], name: "index_utility_pendings_on_provider_type_and_provider_id"
+  end
+
   create_table "water_comp_transactions", force: :cascade do |t|
     t.integer "buyer_id", null: false
     t.integer "rider_id", null: false
@@ -386,6 +434,11 @@ ActiveRecord::Schema.define(version: 2021_01_29_135529) do
   add_foreign_key "products", "product_categories"
   add_foreign_key "schedules", "sellers"
   add_foreign_key "tags", "sellers"
+  add_foreign_key "utility_completeds", "buyers"
+  add_foreign_key "utility_completeds", "riders"
+  add_foreign_key "utility_currents", "buyers"
+  add_foreign_key "utility_currents", "riders"
+  add_foreign_key "utility_pendings", "buyers"
   add_foreign_key "water_comp_transactions", "buyers"
   add_foreign_key "water_comp_transactions", "riders"
   add_foreign_key "water_comp_transactions", "water_providers"

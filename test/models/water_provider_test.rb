@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class WaterProvideTest < ActiveSupport::TestCase
+class WaterProviderTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

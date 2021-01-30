@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  buyer: one
+  rider: one
+  bill_number: MyString
+  provider: one
+  provider_type: Provider
+  date_transacted: 2021-01-30 12:27:08
+  type_of_transaction: MyString
+  date_paid: 2021-01-30 12:27:08
+  amount: 1
+
+two:
+  buyer: two
+  rider: two
+  bill_number: MyString
+  provider: two
+  provider_type: Provider
+  date_transacted: 2021-01-30 12:27:08
+  type_of_transaction: MyString
+  date_paid: 2021-01-30 12:27:08
+  amount: 1

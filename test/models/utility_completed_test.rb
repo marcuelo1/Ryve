@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class WaterCompTransactionTest < ActiveSupport::TestCase
+class UtilityCompletedTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

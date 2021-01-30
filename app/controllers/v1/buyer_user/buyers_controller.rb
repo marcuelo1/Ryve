@@ -95,96 +95,27 @@ class V1::BuyerUser::BuyersController < ApplicationController
         end
     end
 
-    ####    ELECTRICITY
-    def checkout_electricity_transaction
-        electricity_transaction = ElecCurrTransaction.new(electricity_transaction_params)
+    ####    UTILITIES
+    def checkout_utility_transaction
+        transaction = UtilityPending.new(utility_transaction_params)
+        transaction.buyer = current_user
         
-        if electricity_transaction.save 
-            render json: electricity_transaction, status: 200
+        if transaction.save 
+            render json: transaction, status: 200
         else
-            render json: {errors: electricity_transaction.errors}, status: 500
+            render json: {errors: transaction.errors}, status: 500
         end
     end
 
-    def change_electricity_current_transaction_status
-        electricity_transaction = ElecCurrTransaction.find(params[:electricity_current_transaction_id])
+    def show_utility_current
+        utility = UtilityCurrent.find(params[:utility_current_id])
+        render json: utility, status: 200
+    end 
 
-        if electricity_transaction.update(status: params[:status])
-            render json: electricity_transaction, status: 200
-        else
-            render json: {errors: electricity_transaction.errors}, status: 500
-        end
-    end
+    def list_of_completed_utilities
+        utilities = current_user.utility_completeds
 
-    def show_electricity_current_transaction
-        electricity_transaction = ElecCurrTransaction.find(params[:electricity_current_transaction_id])
-        render json: electricity_transaction, status: 200
-    end
-    
-    def complete_electricity_current_transaction
-        electricity_current_transaction = ElecCurrTransaction.find(params[:electricity_current_transaction_id])
-        electricity_completed_transaction = ElecCompTransaction.new(
-            buyer_id: electricity_current_transaction.buyer_id,
-            rider_id: electricity_current_transaction.rider_id,
-            electricity_provider_id: electricity_current_transaction.electricity_provider_id,
-            electricity_bill_number: electricity_current_transaction.electricity_bill_number,
-            date_transacted: electricity_current_transaction.created_at,
-            type_of_transaction: electricity_current_transaction.type_of_transaction,
-            date_paid: Time.now,
-            amount: electricity_current_transaction.amount,
-        )
-
-        if electricity_completed_transaction.save 
-            render json: electricity_completed_transaction, status: 200
-        else
-            render json: {errors: electricity_completed_transaction.errors}, status: 500
-        end
-    end
-
-    ####    WATER
-    def checkout_water_transaction
-        water_transaction = WaterCurrTransaction.new(water_transaction_params)
-        
-        if water_transaction.save 
-            render json: water_transaction, status: 200
-        else
-            render json: {errors: water_transaction.errors}, status: 500
-        end
-    end
-
-    def change_water_current_transaction_status
-        water_transaction = WaterCurrTransaction.find(params[:water_current_transaction_id])
-
-        if water_transaction.update(status: params[:status])
-            render json: water_transaction, status: 200
-        else
-            render json: {errors: water_transaction.errors}, status: 500
-        end
-    end
-
-    def show_water_current_transaction
-        water_transaction = WaterCurrTransaction.find(params[:water_current_transaction_id])
-        render json: water_transaction, status: 200
-    end
-    
-    def complete_water_current_transaction
-        water_current_transaction = WaterCurrTransaction.find(params[:water_current_transaction_id])
-        water_completed_transaction = WaterCompTransaction.new(
-            buyer_id: water_current_transaction.buyer_id,
-            rider_id: water_current_transaction.rider_id,
-            electricity_provider_id: water_current_transaction.electricity_provider_id,
-            electricity_bill_number: water_current_transaction.electricity_bill_number,
-            date_transacted: water_current_transaction.created_at,
-            type_of_transaction: water_current_transaction.type_of_transaction,
-            date_paid: Time.now,
-            amount: water_current_transaction.amount,
-        )
-
-        if water_completed_transaction.save 
-            render json: water_completed_transaction, status: 200
-        else
-            render json: {errors: water_completed_transaction.errors}, status: 500
-        end
+        render json: utilities, status: 200
     end
 
     private
@@ -193,11 +124,7 @@ class V1::BuyerUser::BuyersController < ApplicationController
         params.permit(:longitude, :latitude, :name)
     end
 
-    def electricity_transaction_params
-        params.permit(:buyer_id, :rider_id, :electricity_provider_id, :electricity_bill_number, :status, :type_of_transaction, :is_paid, :amount)
-    end
-
-    def water_transaction_params
-        params.permit(:buyer_id, :rider_id, :water_provider_id, :water_bill_number, :status, :type_of_transaction, :is_paid, :amount)
+    def utility_transaction_params
+        params.permit(:provider_id, :provider_type, :bill_number, :type_of_transaction, :is_paid, :amount)
     end
 end

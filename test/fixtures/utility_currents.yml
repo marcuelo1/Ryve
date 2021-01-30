@@ -3,8 +3,9 @@
 one:
   buyer: one
   rider: one
-  water_bill_number: MyString
-  water_provider: one
+  bill_number: MyString
+  provider: one
+  provider_type: Provider
   status: MyString
   type_of_transaction: MyString
   is_paid: false
@@ -13,8 +14,9 @@ one:
 two:
   buyer: two
   rider: two
-  water_bill_number: MyString
-  water_provider: two
+  bill_number: MyString
+  provider: two
+  provider_type: Provider
   status: MyString
   type_of_transaction: MyString
   is_paid: false

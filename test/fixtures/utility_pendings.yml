@@ -2,20 +2,18 @@
 
 one:
   buyer: one
-  rider: one
-  electricity_provider: one
-  electricity_bill_number: MyString
-  status: MyString
+  bill_number: MyString
+  provider: one
+  provider_type: Provider
   type_of_transaction: MyString
   is_paid: false
   amount: 1
 
 two:
   buyer: two
-  rider: two
-  electricity_provider: two
-  electricity_bill_number: MyString
-  status: MyString
+  bill_number: MyString
+  provider: two
+  provider_type: Provider
   type_of_transaction: MyString
   is_paid: false
   amount: 1

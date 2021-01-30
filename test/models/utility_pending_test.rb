@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ElecCompTransactionTest < ActiveSupport::TestCase
+class UtilityPendingTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

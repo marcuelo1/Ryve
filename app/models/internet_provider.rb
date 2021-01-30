@@ -1,0 +1,2 @@
+class InternetProvider < ApplicationRecord
+end

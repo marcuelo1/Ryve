@@ -9,6 +9,9 @@ class Buyer < ActiveRecord::Base
 
   has_many :buyer_locations, dependent: :destroy
   has_many :carts, dependent: :destroy
+  # Normal Transactions
   has_many :current_transactions, dependent: :destroy
   has_many :completed_transactions, dependent: :destroy
+  # Utility Transactions
+  has_many :utility_completeds, dependent: :destroy
 end

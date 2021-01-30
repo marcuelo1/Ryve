@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ElecCurrTransactionTest < ActiveSupport::TestCase
+class InternetProviderTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
