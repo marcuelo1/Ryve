@@ -131,5 +131,12 @@ Rails.application.routes.draw do
       # Change Utility Current Transaction
       put 'change_utility_current_status', to: 'riders#change_utility_current_status'
     end
+
+    namespace :admin_user do
+      mount_devise_token_auth_for 'Admin', at: 'admin_auth', controllers: {
+        registrations: 'v1/admin_user/registrations',
+        sessions: 'v1/admin_user/sessions'
+      }
+    end
   end
 end
