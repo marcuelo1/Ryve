@@ -137,6 +137,21 @@ Rails.application.routes.draw do
         registrations: 'v1/admin_user/registrations',
         sessions: 'v1/admin_user/sessions'
       }
+      
+      #########################################################################################################
+      ####
+      #### UTILITY TRANSACTIONS
+      ####
+      # List of electricity current transactions
+      get 'list_of_electricity_utility_current_transaction', to: 'admins#list_of_electricity_utility_current_transaction'
+      # List of water current transactions
+      get 'list_of_water_utility_current_transaction', to: 'admins#list_of_water_utility_current_transaction'
+      # List of internet current transactions
+      get 'list_of_internet_utility_current_transaction', to: 'admins#list_of_internet_utility_current_transaction'
+      # Change utility current status
+      put 'change_utility_current_status', to: 'admins#change_utility_current_status'
+      # Complete utility current
+      post 'compelete_utility_current', to: 'admins#compelete_utility_current'
     end
   end
 end
