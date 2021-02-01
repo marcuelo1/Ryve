@@ -95,6 +95,7 @@ class V1::BuyerUser::BuyersController < ApplicationController
         end
     end
 
+<<<<<<< HEAD
     ####    UTILITIES
     def checkout_utility_transaction
         transaction = UtilityPending.new(utility_transaction_params)
@@ -114,6 +115,18 @@ class V1::BuyerUser::BuyersController < ApplicationController
 
     def list_of_completed_utilities
         utilities = current_user.utility_completeds
+=======
+    def add_to_cart
+        product = Product.find(params[:product_id])
+        seller = product.product_category.seller
+        cart = Cart.where(buyer: current_user, seller: seller).first_create
+
+        render json: cart
+    end
+    
+
+    private
+>>>>>>> 299313040208afe95fc1d4591d70dbb9123656bf
 
         render json: utilities, status: 200
     end
