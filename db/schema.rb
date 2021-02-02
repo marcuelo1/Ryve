@@ -98,16 +98,6 @@ ActiveRecord::Schema.define(version: 2021_01_31_031550) do
     t.index ["uid", "provider"], name: "index_buyers_on_uid_and_provider", unique: true
   end
 
-  create_table "cart_items", force: :cascade do |t|
-    t.integer "quantity"
-    t.integer "buyer_id", null: false
-    t.integer "product_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["buyer_id"], name: "index_cart_items_on_buyer_id"
-    t.index ["product_id"], name: "index_cart_items_on_product_id"
-  end
-
   create_table "carts", force: :cascade do |t|
     t.integer "buyer_id", null: false
     t.integer "seller_id", null: false
@@ -163,38 +153,6 @@ ActiveRecord::Schema.define(version: 2021_01_31_031550) do
     t.index ["buyer_location_id"], name: "index_current_transactions_on_buyer_location_id"
     t.index ["rider_id"], name: "index_current_transactions_on_rider_id"
     t.index ["seller_id"], name: "index_current_transactions_on_seller_id"
-  end
-
-  create_table "elec_comp_transactions", force: :cascade do |t|
-    t.integer "buyer_id", null: false
-    t.integer "rider_id", null: false
-    t.integer "electricity_provider_id", null: false
-    t.string "electricity_bill_number"
-    t.datetime "date_transacted"
-    t.string "type_of_transaction"
-    t.datetime "date_paid"
-    t.integer "amount"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["buyer_id"], name: "index_elec_comp_transactions_on_buyer_id"
-    t.index ["electricity_provider_id"], name: "index_elec_comp_transactions_on_electricity_provider_id"
-    t.index ["rider_id"], name: "index_elec_comp_transactions_on_rider_id"
-  end
-
-  create_table "elec_curr_transactions", force: :cascade do |t|
-    t.integer "buyer_id", null: false
-    t.integer "rider_id", null: false
-    t.integer "electricity_provider_id", null: false
-    t.string "electricity_bill_number"
-    t.string "status"
-    t.string "type_of_transaction"
-    t.boolean "is_paid"
-    t.integer "amount"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["buyer_id"], name: "index_elec_curr_transactions_on_buyer_id"
-    t.index ["electricity_provider_id"], name: "index_elec_curr_transactions_on_electricity_provider_id"
-    t.index ["rider_id"], name: "index_elec_curr_transactions_on_rider_id"
   end
 
   create_table "electricity_providers", force: :cascade do |t|
@@ -286,31 +244,6 @@ ActiveRecord::Schema.define(version: 2021_01_31_031550) do
     t.index ["seller_id"], name: "index_schedules_on_seller_id"
   end
 
-  create_table "seller_users", force: :cascade do |t|
-    t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.boolean "allow_password_change", default: false
-    t.datetime "remember_created_at"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.string "name"
-    t.string "nickname"
-    t.string "image"
-    t.string "email"
-    t.text "tokens"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["confirmation_token"], name: "index_seller_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_seller_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_seller_users_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_seller_users_on_uid_and_provider", unique: true
-  end
-
   create_table "sellers", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -399,45 +332,7 @@ ActiveRecord::Schema.define(version: 2021_01_31_031550) do
     t.index ["provider_type", "provider_id"], name: "index_utility_pendings_on_provider_type_and_provider_id"
   end
 
-  create_table "water_comp_transactions", force: :cascade do |t|
-    t.integer "buyer_id", null: false
-    t.integer "rider_id", null: false
-    t.string "water_bill_number"
-    t.integer "water_provider_id", null: false
-    t.datetime "date_transacted"
-    t.string "type_of_transaction"
-    t.datetime "date_paid"
-    t.integer "amount"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["buyer_id"], name: "index_water_comp_transactions_on_buyer_id"
-    t.index ["rider_id"], name: "index_water_comp_transactions_on_rider_id"
-    t.index ["water_provider_id"], name: "index_water_comp_transactions_on_water_provider_id"
-  end
-
-  create_table "water_curr_transactions", force: :cascade do |t|
-    t.integer "buyer_id", null: false
-    t.integer "rider_id", null: false
-    t.string "water_bill_number"
-    t.integer "water_provider_id", null: false
-    t.string "status"
-    t.string "type_of_transaction"
-    t.boolean "is_paid"
-    t.integer "amount"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["buyer_id"], name: "index_water_curr_transactions_on_buyer_id"
-    t.index ["rider_id"], name: "index_water_curr_transactions_on_rider_id"
-    t.index ["water_provider_id"], name: "index_water_curr_transactions_on_water_provider_id"
-  end
-
   create_table "water_providers", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "water_provides", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -445,8 +340,6 @@ ActiveRecord::Schema.define(version: 2021_01_31_031550) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "buyer_locations", "buyers"
-  add_foreign_key "cart_items", "buyers"
-  add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "buyers"
   add_foreign_key "carts", "sellers"
   add_foreign_key "checkout_products", "checkout_orders"
@@ -459,12 +352,6 @@ ActiveRecord::Schema.define(version: 2021_01_31_031550) do
   add_foreign_key "current_transactions", "buyers"
   add_foreign_key "current_transactions", "riders"
   add_foreign_key "current_transactions", "sellers"
-  add_foreign_key "elec_comp_transactions", "buyers"
-  add_foreign_key "elec_comp_transactions", "electricity_providers"
-  add_foreign_key "elec_comp_transactions", "riders"
-  add_foreign_key "elec_curr_transactions", "buyers"
-  add_foreign_key "elec_curr_transactions", "electricity_providers"
-  add_foreign_key "elec_curr_transactions", "riders"
   add_foreign_key "pending_orders", "buyer_locations"
   add_foreign_key "pending_orders", "buyers"
   add_foreign_key "pending_orders", "sellers"
@@ -477,10 +364,4 @@ ActiveRecord::Schema.define(version: 2021_01_31_031550) do
   add_foreign_key "utility_currents", "buyers"
   add_foreign_key "utility_currents", "riders"
   add_foreign_key "utility_pendings", "buyers"
-  add_foreign_key "water_comp_transactions", "buyers"
-  add_foreign_key "water_comp_transactions", "riders"
-  add_foreign_key "water_comp_transactions", "water_providers"
-  add_foreign_key "water_curr_transactions", "buyers"
-  add_foreign_key "water_curr_transactions", "riders"
-  add_foreign_key "water_curr_transactions", "water_providers"
 end
