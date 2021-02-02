@@ -61,6 +61,7 @@ GEM
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
     bcrypt (3.1.16)
+    bcrypt_pbkdf (1.0.1)
     bindex (0.8.1)
     blueprinter (0.25.2)
     bootsnap (1.5.1)
@@ -103,6 +104,7 @@ GEM
       bcrypt (~> 3.0)
       devise (> 3.5.2, < 5)
       rails (>= 4.2.0, < 6.1)
+    ed25519 (1.2.4)
     erubi (1.10.0)
     ffi (1.14.2)
     geocoder (1.6.4)
@@ -245,6 +247,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt_pbkdf
   blueprinter
   bootsnap (>= 1.4.2)
   byebug
@@ -254,6 +257,7 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.1, >= 2.1.4)
   capybara (>= 2.15)
   devise_token_auth
+  ed25519
   geocoder
   jbuilder (~> 2.7)
   listen (~> 3.2)
@@ -273,7 +277,7 @@ DEPENDENCIES
   webpacker (~> 4.0)
 
 RUBY VERSION
-   ruby 2.7.1p83
+   ruby 2.7.2p137
 
 BUNDLED WITH
    2.1.4
