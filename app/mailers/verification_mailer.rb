@@ -1,5 +1,5 @@
 class VerificationMailer < ApplicationMailer
-    default from: 'miloemarcuelo@gmail.com'
+    default from: 'ryve.public@gmail.com'
     
     def send_code(user)
         @user = user

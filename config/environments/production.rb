@@ -111,7 +111,7 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   config.action_mailer.default_url_options = {host: "http://68.183.191.221/"}
-  config.action_mailer.default_options = {from: "miloemarcuelo@gmail.com"}
+  config.action_mailer.default_options = {from: "ryve.public@gmail.com"}
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
 
@@ -119,8 +119,8 @@ Rails.application.configure do
       address:              'smtp.gmail.com',
       port:                 587,
       domain:               'gmail.com',
-      user_name:            'miloemarcuelo@gmail.com',
-      password:             'Mmmmmnnb_2',
+      user_name:            'ryve.public@gmail.com',
+      password:             'ryvebacolod2020',
       authentication:       'plain',
       enable_starttls_auto: true  
   }
