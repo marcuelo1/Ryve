@@ -12,11 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2021_02_04_001324) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -34,7 +37,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
   end
 
   create_table "additionals", force: :cascade do |t|
-    t.integer "product_id", null: false
+    t.bigint "product_id", null: false
     t.string "name"
     t.integer "price"
     t.integer "discount"
@@ -73,7 +76,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
     t.float "longitude"
     t.float "latitude"
     t.string "name"
-    t.integer "buyer_id", null: false
+    t.bigint "buyer_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["buyer_id"], name: "index_buyer_locations_on_buyer_id"
@@ -109,19 +112,18 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
   end
 
   create_table "carts", force: :cascade do |t|
-    t.integer "buyer_id", null: false
-    t.integer "seller_id", null: false
+    t.bigint "buyer_id", null: false
+    t.bigint "seller_id", null: false
     t.integer "checkout_order_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "amount"
     t.index ["buyer_id"], name: "index_carts_on_buyer_id"
     t.index ["seller_id"], name: "index_carts_on_seller_id"
   end
 
   create_table "checkout_additionals", force: :cascade do |t|
-    t.integer "additional_id", null: false
-    t.integer "checkout_product_id", null: false
+    t.bigint "additional_id", null: false
+    t.bigint "checkout_product_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["additional_id"], name: "index_checkout_additionals_on_additional_id"
@@ -135,8 +137,8 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
   end
 
   create_table "checkout_products", force: :cascade do |t|
-    t.integer "product_id", null: false
-    t.integer "checkout_order_id", null: false
+    t.bigint "product_id", null: false
+    t.bigint "checkout_order_id", null: false
     t.integer "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -145,8 +147,8 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
   end
 
   create_table "checkout_sizes", force: :cascade do |t|
-    t.integer "size_id", null: false
-    t.integer "checkout_product_id", null: false
+    t.bigint "size_id", null: false
+    t.bigint "checkout_product_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["checkout_product_id"], name: "index_checkout_sizes_on_checkout_product_id"
@@ -155,14 +157,13 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
 
   create_table "completed_transactions", force: :cascade do |t|
     t.datetime "date"
-    t.integer "rider_id", null: false
-    t.integer "buyer_location_id", null: false
+    t.bigint "rider_id", null: false
+    t.bigint "buyer_location_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "buyer_id", null: false
-    t.integer "seller_id", null: false
+    t.bigint "buyer_id", null: false
+    t.bigint "seller_id", null: false
     t.integer "checkout_order_id"
-    t.integer "amount"
     t.index ["buyer_id"], name: "index_completed_transactions_on_buyer_id"
     t.index ["buyer_location_id"], name: "index_completed_transactions_on_buyer_location_id"
     t.index ["rider_id"], name: "index_completed_transactions_on_rider_id"
@@ -173,14 +174,13 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
     t.string "status"
     t.integer "time_remaining"
     t.boolean "is_paid"
-    t.integer "buyer_id", null: false
-    t.integer "rider_id", null: false
+    t.bigint "buyer_id", null: false
+    t.bigint "rider_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "buyer_location_id", null: false
-    t.integer "seller_id", null: false
+    t.bigint "buyer_location_id", null: false
+    t.bigint "seller_id", null: false
     t.integer "checkout_order_id"
-    t.integer "amount"
     t.index ["buyer_id"], name: "index_current_transactions_on_buyer_id"
     t.index ["buyer_location_id"], name: "index_current_transactions_on_buyer_location_id"
     t.index ["rider_id"], name: "index_current_transactions_on_rider_id"
@@ -200,21 +200,20 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
   end
 
   create_table "pending_orders", force: :cascade do |t|
-    t.integer "buyer_id", null: false
-    t.integer "seller_id", null: false
+    t.bigint "buyer_id", null: false
+    t.bigint "seller_id", null: false
     t.integer "checkout_order_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "is_paid"
-    t.integer "buyer_location_id", null: false
-    t.integer "amount"
+    t.bigint "buyer_location_id", null: false
     t.index ["buyer_id"], name: "index_pending_orders_on_buyer_id"
     t.index ["buyer_location_id"], name: "index_pending_orders_on_buyer_location_id"
     t.index ["seller_id"], name: "index_pending_orders_on_seller_id"
   end
 
   create_table "product_categories", force: :cascade do |t|
-    t.integer "seller_id", null: false
+    t.bigint "seller_id", null: false
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -222,7 +221,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.integer "product_category_id", null: false
+    t.bigint "product_category_id", null: false
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -262,7 +261,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
   end
 
   create_table "schedules", force: :cascade do |t|
-    t.integer "seller_id", null: false
+    t.bigint "seller_id", null: false
     t.string "monday"
     t.string "tuesday"
     t.string "wednesday"
@@ -308,7 +307,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
   end
 
   create_table "sizes", force: :cascade do |t|
-    t.integer "product_id", null: false
+    t.bigint "product_id", null: false
     t.string "name"
     t.integer "price"
     t.integer "discount"
@@ -319,18 +318,18 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
 
   create_table "tags", force: :cascade do |t|
     t.string "name"
-    t.integer "seller_id", null: false
+    t.bigint "seller_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["seller_id"], name: "index_tags_on_seller_id"
   end
 
   create_table "utility_completeds", force: :cascade do |t|
-    t.integer "buyer_id", null: false
-    t.integer "rider_id", null: false
+    t.bigint "buyer_id", null: false
+    t.bigint "rider_id", null: false
     t.string "bill_number"
     t.string "provider_type", null: false
-    t.integer "provider_id", null: false
+    t.bigint "provider_id", null: false
     t.datetime "date_transacted"
     t.string "type_of_transaction"
     t.datetime "date_paid"
@@ -343,11 +342,11 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
   end
 
   create_table "utility_currents", force: :cascade do |t|
-    t.integer "buyer_id", null: false
-    t.integer "rider_id", null: false
+    t.bigint "buyer_id", null: false
+    t.bigint "rider_id", null: false
     t.string "bill_number"
     t.string "provider_type", null: false
-    t.integer "provider_id", null: false
+    t.bigint "provider_id", null: false
     t.string "status"
     t.string "type_of_transaction"
     t.boolean "is_paid"
@@ -360,10 +359,10 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
   end
 
   create_table "utility_pendings", force: :cascade do |t|
-    t.integer "buyer_id", null: false
+    t.bigint "buyer_id", null: false
     t.string "bill_number"
     t.string "provider_type", null: false
-    t.integer "provider_id", null: false
+    t.bigint "provider_id", null: false
     t.string "type_of_transaction"
     t.boolean "is_paid"
     t.integer "amount"
