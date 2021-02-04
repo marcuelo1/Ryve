@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
       # Verification of seller
       get 'verify', to: 'verification#verify'
+      # Resend Verification
+      get 'resend_verification', to: 'verification#resend_verification'
       #########################################################################################################
       ####
       ####  SELLER PROFILE
@@ -58,6 +60,8 @@ Rails.application.routes.draw do
 
       # Verification of seller
       get 'verify', to: 'verification#verify'
+      # Resend Verification
+      get 'resend_verification', to: 'verification#resend_verification'
       #########################################################################################################
       ####
       ####  BUYER'S PROFILE
@@ -112,6 +116,8 @@ Rails.application.routes.draw do
 
       # Verification of seller
       get 'verify', to: 'verification#verify'
+      # Resend Verification
+      get 'resend_verification', to: 'verification#resend_verification'
       #########################################################################################################
       ####
       #### NORMAL TRANSACTIONS

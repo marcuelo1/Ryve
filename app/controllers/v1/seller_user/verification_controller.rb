@@ -12,4 +12,11 @@ class V1::SellerUser::VerificationController < ApplicationController
         end
     end
 
+    def resend_verification
+        seller_user = Seller.find(params[:seller_id])
+        VerificationMailer.send_code(seller_user).deliver_later
+
+        render json: {}, status: 200
+    end
+
 end

@@ -15,7 +15,7 @@ class V1::SellerUser::RegistrationsController < DeviseTokenAuth::RegistrationsCo
             schedule.seller = seller_user
             schedule.save
 
-            super
+            render json: seller_user, status: 200
         else
             render json: {errors: seller_user.errors}, status: 500
         end
