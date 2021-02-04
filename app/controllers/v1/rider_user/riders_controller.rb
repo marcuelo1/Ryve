@@ -5,7 +5,17 @@ class V1::RiderUser::RidersController < ApplicationController
     def list_of_pending_orders
         lat = params[:latitude].to_f 
         long = params[:longitude].to_f 
-        pending_orders = PendingOrder.near([lat, long], 50, units: :km)
+        buyer_location_ids = BuyerLocation.near([lat, long], 50, units: :km).map{|location| location.id}
+        pending_orders = PendingOrder.where(buyer_location_id: buyer_location_ids).map{ |pending_order|
+            {
+                id: pending_order.id,
+                buyer_id: pending_order.buyer_id,
+                buyer_location: pending_order.buyer_location,
+                seller: pending_order.seller,
+                is_paid: pending_order.is_paid,
+                amount: CheckoutOrder.find(pending_order.checkout_order_id).amount
+            }
+        }
         
         render json: pending_orders
     end
