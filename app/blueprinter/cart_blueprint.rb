@@ -12,4 +12,8 @@ class CartBlueprint < Blueprinter::Base
     association :products, blueprint: CheckoutProductBlueprint do |cart|
         CheckoutOrder.find(cart.checkout_order_id).checkout_products
     end
+
+    field :amount do |cart|
+        CheckoutOrder.find(cart.checkout_order_id).amount 
+    end
 end

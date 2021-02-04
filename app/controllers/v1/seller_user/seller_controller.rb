@@ -4,26 +4,34 @@ class V1::SellerUser::SellerController < ApplicationController
     def create_product
         category = ProductCategory.find_or_create_by(name: params[:category], seller: current_user)
 
-        
-        # Sample data format to be send
-            # products: [
-            #     {
-            #         name: "sample",
-            #         price: 23
-            #         discount: 10
-            #     },
-            #     {
-            #         name: "sample",
-            #         price: 23
-            #         discount: 10
-            #     }
-            # ]
         params[:products].each do |product|
-            temp_product = Product.new(name: product[:name], price: product[:price], discount: product[:discount], product_category: category, product_image: product[:product_image])
-            
+            temp_product = Product.new(name: product[:name], product_category: category, product_image: product[:product_image])
+
             if !temp_product.save 
-                render json: {errors: temp_product.errors}, status: 500
                 category.destroy 
+                return render json: {errors: temp_product.errors}, status: 500
+            end
+
+            # Sizes 
+            product[:sizes].each do |size|
+                temp_size = Size.new(name: size[:name], price: size[:price], discount: size[:discount])
+                temp_size.product = temp_product
+
+                if !temp_size.save 
+                    temp_product.destroy
+                    return render json: {errors: temp_size.errors}, status: 500
+                end
+            end
+            
+            # Additionals 
+            product[:additionals].each do |additional|
+                temp_additional = Additional.new(name: additional[:name], price: additional[:price], discount: additional[:discount])
+                temp_additional.product = temp_product
+
+                if !temp_additional.save 
+                    temp_product.destroy
+                    return render json: {errors: temp_additional.errors}, status: 500
+                end
             end
         end
 

@@ -20,6 +20,15 @@ class V1::BuyerUser::BuyersController < ApplicationController
         render json: products
     end
 
+    def show_sizes_and_additionals
+        product = Product.find(params[:product_id])
+
+        sizes = product.sizes 
+        additionals = product.additionals 
+
+        render json: {sizes: sizes, additionals: additionals}, status: 200
+    end
+
     def add_to_cart
         product = Product.find(params[:product_id])
         seller = product.product_category.seller
@@ -30,19 +39,101 @@ class V1::BuyerUser::BuyersController < ApplicationController
             cart.checkout_order_id = checkout_order.id 
             cart.save 
 
+            # Amount of Checkout Order
+            total_amount = checkout_order.amount
+
             checkout_product = checkout_order.checkout_products.create(product_id: params[:product_id], quantity: params[:quantity])
+            checkout_size = CheckoutSize.create(size_id: params[:size_id], checkout_product: checkout_product)
+            total_amount += checkout_size.size.price
+
+            params[:additionals].each do |additional|
+                checkout_additional = checkout_additional = checkout_product.checkout_additionals.create(additional_id: additional)
+                total_amount += checkout_additional.additional.price
+            end
+
+            checkout_order.update(amount: total_amount)
         else
             checkout_order = CheckoutOrder.find(cart.checkout_order_id)
+            total_amount = checkout_order.amount
+
             checkout_product = checkout_order.checkout_products.where(product_id: params[:product_id]).first 
 
             if checkout_product 
-                product_current_quantity = checkout_product.quantity
-                checkout_product.update(quantity: product_current_quantity + params[:quantity].to_i)
-            else
+                if checkout_product.checkout_size.size_id == params[:size_id].to_i
+                    check = checkout_product.checkout_additionals.map{|additional| params[:additionals].include?("#{additional.additional_id}")}.uniq
+                    case check.count
+                    when 1
+                        if check.first == true # It has existing product in cart with the same size and additionals
+                            product_current_quantity = checkout_product.quantity
+                            checkout_product.update(quantity: product_current_quantity + params[:quantity].to_i)
+
+                            # Add the amount of the order to the total amount
+                            checkout_size = checkout_product.checkout_size
+                            total_amount += checkout_size.size.price 
+
+                            checkout_product.checkout_additionals.each do |checkout_additional|
+                                total_amount += checkout_additional.additional.price
+                            end
+                        else    # Product with same size and additionals does not exist
+                            checkout_product = checkout_order.checkout_products.create(product_id: params[:product_id], quantity: params[:quantity])
+                            checkout_size = CheckoutSize.create(size_id: params[:size_id], checkout_product: checkout_product)
+                            total_amount += checkout_size.size.price
+                
+                            params[:additionals].each do |additional|
+                                checkout_additional = checkout_product.checkout_additionals.create(additional_id: additional)
+                                total_amount += checkout_additional.additional.price
+                            end
+                        end
+                    when 2  # Product with same size and additionals does not exist
+                        checkout_product = checkout_order.checkout_products.create(product_id: params[:product_id], quantity: params[:quantity])
+                        checkout_size = CheckoutSize.create(size_id: params[:size_id], checkout_product: checkout_product)
+                        total_amount += checkout_size.size.price
+            
+                        params[:additionals].each do |additional|
+                            checkout_additional = checkout_product.checkout_additionals.create(additional_id: additional)
+                            total_amount += checkout_additional.additional.price
+                        end
+                    end
+                else # Product with same size does not exist
+                    checkout_product = checkout_order.checkout_products.create(product_id: params[:product_id], quantity: params[:quantity])
+                    checkout_size = CheckoutSize.create(size_id: params[:size_id], checkout_product: checkout_product)
+                    total_amount += checkout_size.size.price
+        
+                    params[:additionals].each do |additional|
+                        checkout_additional = checkout_product.checkout_additionals.create(additional_id: additional)
+                        total_amount += checkout_additional.additional.price
+                    end
+                end
+            else # Product does not exist in cart
                 checkout_product = checkout_order.checkout_products.create(product_id: params[:product_id], quantity: params[:quantity])
+                checkout_size = CheckoutSize.create(size_id: params[:size_id], checkout_product: checkout_product)
+                total_amount += checkout_size.size.price
+
+                params[:additionals].each do |additional|
+                    checkout_additional = checkout_product.checkout_additionals.create(additional_id: additional)
+                    total_amount += checkout_additional.additional.price
+                end
             end
+
+            checkout_order.update(amount: total_amount)
         end
 
+        render json: CartBlueprint.render(cart)
+    end
+
+    def list_of_carts
+        carts = Cart.where(buyer: current_user).map{|cart| 
+            {
+                seller: cart.seller.company_name, 
+                amount: CheckoutOrder.find(cart.checkout_order_id).amount, 
+                id: cart.id
+            }
+        }
+        render json: carts
+    end
+
+    def show_cart
+        cart = Cart.find(params[:cart_id])
         render json: CartBlueprint.render(cart)
     end
 

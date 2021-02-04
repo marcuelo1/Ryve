@@ -74,8 +74,14 @@ Rails.application.routes.draw do
       get 'list_of_nearby_stores', to: 'buyers#list_of_nearby_stores'
       # List of products of the seller
       get 'products_of_seller', to: 'buyers#products_of_seller' 
+      # Show Sizes and Additionals of Product
+      get 'show_sizes_and_additionals', to: 'buyers#show_sizes_and_additionals'
       # Add to Cart
       post 'add_to_cart', to: 'buyers#add_to_cart'
+      # List Of Carts
+      get 'list_of_carts', to: 'buyers#list_of_carts'
+      # Show Cart
+      get 'show_cart', to: 'buyers#show_cart'
       #########################################################################################################
       ####
       ####  BUYER'S TRANSACTIONS
