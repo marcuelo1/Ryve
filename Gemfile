@@ -59,6 +59,7 @@ gem 'devise_token_auth'
 gem 'geocoder'
 gem 'blueprinter'
 gem 'pg'
+gem 'pg_search'
 
 # PRODUCTION
 gem 'capistrano', '~> 3.11'

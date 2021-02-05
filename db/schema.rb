@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_04_001324) do
+ActiveRecord::Schema.define(version: 2021_02_05_133213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
     t.string "last_name"
     t.string "phone_number"
     t.boolean "is_verified"
-    t.integer "verification_code"
+    t.string "verification_code"
     t.index ["confirmation_token"], name: "index_buyers_on_confirmation_token", unique: true
     t.index ["email"], name: "index_buyers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_buyers_on_reset_password_token", unique: true
@@ -251,7 +251,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
     t.string "last_name"
     t.boolean "is_verified"
     t.string "phone_number"
-    t.integer "verification_code"
+    t.string "verification_code"
     t.string "address"
     t.string "plate_number"
     t.index ["confirmation_token"], name: "index_riders_on_confirmation_token", unique: true
@@ -296,7 +296,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_001324) do
     t.boolean "is_verified"
     t.float "longitude"
     t.float "latitude"
-    t.integer "verification_code"
+    t.string "verification_code"
     t.string "category"
     t.string "company_name"
     t.string "location"

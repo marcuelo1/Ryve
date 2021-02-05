@@ -4,7 +4,7 @@ class V1::RiderUser::RegistrationsController < DeviseTokenAuth::RegistrationsCon
         # Create user
         rider_user = Rider.new(sign_up_params)
         rider_user.is_verified = false
-        rider_user.verification_code = (rand() * 10000).to_i
+        rider_user.verification_code = 4.times.map{rand(10)}.join
 
         if rider_user.save 
             # Send Verification Code To User

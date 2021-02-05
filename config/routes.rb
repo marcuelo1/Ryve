@@ -76,6 +76,8 @@ Rails.application.routes.draw do
       ####
       # List of Nearby Stores
       get 'list_of_nearby_stores', to: 'buyers#list_of_nearby_stores'
+      # Search Stores
+      get 'search_stores', to: 'buyers#search_stores'
       # List of products of the seller
       get 'products_of_seller', to: 'buyers#products_of_seller' 
       # Show Sizes and Additionals of Product

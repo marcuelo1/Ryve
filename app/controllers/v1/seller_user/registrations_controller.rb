@@ -4,7 +4,7 @@ class V1::SellerUser::RegistrationsController < DeviseTokenAuth::RegistrationsCo
         # Create user
         seller_user = Seller.new(sign_up_params)
         seller_user.is_verified = false
-        seller_user.verification_code = (rand() * 10000).to_i
+        seller_user.verification_code = 4.times.map{rand(10)}.join
 
         if seller_user.save 
             # Send Verification Code To User

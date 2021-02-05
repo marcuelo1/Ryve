@@ -10,6 +10,14 @@ class V1::BuyerUser::BuyersController < ApplicationController
         render json: stores, status: 200
     end
 
+    def search_stores
+        lat = params[:latitude].to_f 
+        long = params[:longitude].to_f 
+        stores = Seller.store_search(params[:keywords]).near([lat, long], 50, units: :km)
+
+        render json: stores
+    end
+
     def products_of_seller
         seller = Seller.find(params[:seller_id])
 

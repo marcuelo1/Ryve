@@ -8,6 +8,8 @@ class Seller < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :product_categories, dependent: :destroy
+  has_many :products, through: :product_categories
+
   has_many :tags, dependent: :destroy
   has_one :schedule, dependent: :destroy
   has_many :carts, dependent: :destroy
@@ -19,5 +21,12 @@ class Seller < ActiveRecord::Base
   # geocdoe
   geocoded_by :location
   after_validation :geocode, if: :location_changed?
+
+  # Pg Search
+  include PgSearch::Model
+  pg_search_scope :store_search, associated_against: {
+    products: :name,
+    product_categories: :name
+  }
 
 end

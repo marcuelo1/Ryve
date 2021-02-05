@@ -2,7 +2,7 @@ class V1::SellerUser::VerificationController < ApplicationController
 
     def verify
         seller_user = Seller.find(params[:seller_user_id])
-        if seller_user.verification_code == params[:verification_code].to_i
+        if seller_user.verification_code == params[:verification_code]
             seller_user.is_verified = true
             seller_user.save 
 
