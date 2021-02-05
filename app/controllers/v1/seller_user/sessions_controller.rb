@@ -12,11 +12,13 @@ class V1::SellerUser::SessionsController < DeviseTokenAuth::SessionsController
                 return render json: {status: "You dont have an account"}, status: 422 
             end
 
-            if seller_user.is_verified?
-                super
-            else
-                render json: {status: "Need to verify account"}, status: 401
-            end
+            super
+            
+            # if seller_user.is_verified?
+            #     super
+            # else
+            #     render json: {status: "Need to verify account"}, status: 401
+            # end
         end
     end
     
